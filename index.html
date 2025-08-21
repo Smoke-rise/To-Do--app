@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>To-Do App</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f4f4f9;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+    .container {
+      background: white;
+      padding: 20px;
+      border-radius: 10px;
+      width: 300px;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+    }
+    input {
+      width: 70%;
+      padding: 8px;
+    }
+    button {
+      padding: 8px;
+      margin-left: 5px;
+    }
+    ul {
+      list-style: none;
+      padding: 0;
+    }
+    li {
+      background: #eee;
+      margin: 5px 0;
+      padding: 8px;
+      display: flex;
+      justify-content: space-between;
+      border-radius: 5px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>To-Do List ✅</h2>
+    <input type="text" id="taskInput" placeholder="Enter task">
+    <button onclick="addTask()">Add</button>
+    <ul id="taskList"></ul>
+  </div>
+
+  <script>
+    function addTask() {
+      let input = document.getElementById("taskInput");
+      let task = input.value.trim();
+      if (task === "") return;
+
+      let li = document.createElement("li");
+      li.innerHTML = `${task} <button onclick="removeTask(this)">❌</button>`;
+      document.getElementById("taskList").appendChild(li);
+
+      saveTasks();
+      input.value = "";
+    }
+
+    function removeTask(btn) {
+      btn.parentElement.remove();
+      saveTasks();
+    }
+
+    function saveTasks() {
+      localStorage.setItem("tasks", document.getElementById("taskList").innerHTML);
+    }
+
+    function loadTasks() {
+      document.getElementById("taskList").innerHTML = localStorage.getItem("tasks") || "";
+    }
+
+    loadTasks();
+  </script>
+</body>
+</html>
